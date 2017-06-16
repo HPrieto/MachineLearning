@@ -63,13 +63,13 @@ if __name__ == '__main__':
 	print 'New synaptic weights after training :'
 	print neural_network.synaptic_weights
 	# Test the neural network
-	print 'Considering new situation [1, 0, 0] -> 0:'
+	print 'Situation #1: [1, 0, 0] -> 0'
 	print neural_network.think(array([1,0,0]))
-	print 'Considering new situation [1, 1, 1] -> 1:'
+	print 'Situation #2: [1, 1, 1] -> 1'
 	print neural_network.think(array([1,1,1]))
-	print 'Considering new situation [1, 0, 1] -> 1:'
+	print 'Situation #3: [1, 0, 1] -> 1'
 	print neural_network.think(array([1,0,1]))
-	print 'Considering new situation [0, 1, 1] -> 0:'
+	print 'Situation #4: [0, 1, 1] -> 0'
 	print neural_network.think(array([0,1,1]))
 	"""
 		Samples:
