@@ -51,22 +51,11 @@ model.fit({'input':X}, {'targets':Y}, n_epoch=10,
 # Saves weights values NOT model
 model.save('tflearn_conv.model')
 
+"""
+Loading weights from previous run
 
+model.load('tflearn_conv.model')
+"""
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Get Prediction
+print(model.predict([test_x[1]]))
