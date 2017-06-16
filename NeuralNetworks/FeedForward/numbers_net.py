@@ -85,14 +85,14 @@ def train_neural_network(x):
 	prediction = neural_network_model(x)
 	print('Prediction: ', prediction)
 	# Calculate the difference of prediction and known label
-	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(prediction, y))
+	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=prediction, labels=y))
 	# Minimize the difference of prediction and known label
 	optimizer = tf.train.AdamOptimizer().minimize(cost)
 	# Specify cycles of feed forward and backpropogation
 	hm_epochs = 10
 	# Begin TensorFlow Session
 	with tf.Session() as sess:
-		sess.run(tf.initialize_all_variables())
+		sess.run(tf.global_variables_initializer())
 		# Begin training
 		for epoch in range(hm_epochs):
 			epoch_loss = 0

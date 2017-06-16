@@ -29,7 +29,7 @@ x = tf.placeholder('float', [None, 784])
 # Label of the Data
 y = tf.placeholder('float')
 
-
+# Rate of neurons to keep
 keep_rate = 0.8
 keep_prob = tf.placeholder(tf.float32)
 
@@ -54,11 +54,11 @@ def convolution_neural_network(x):
 	# Reshape dataset for tensorflow
 	# From 724 image => (28 x 28) image
 	x = tf.reshape(x, shape=[-1, 28, 28, 1])
-	# Convolve and Pool data
-	conv1 = conv2d(x,weights['w_conv1'])
+	# Perform Activation Function, Convolve and Pool data
+	conv1 = tf.nn.relu(conv2d(x,weights['w_conv1']) + biases['b_conv1'])
 	conv1 = maxpool2d(conv1)
-	# Convolve and Pool convolve1
-	conv2 = conv2d(conv1,weights['w_conv2'])
+	# Perform Activation Function, Convolve and Pool convolve1
+	conv2 = tf.nn.relu(conv2d(conv1,weights['w_conv2']) + biases['b_conv2'])
 	conv2 = maxpool2d(conv2)
 	# Reshape data for tensorflow
 	fc = tf.reshape(conv2, [-1, 7*7*64])
@@ -75,14 +75,14 @@ def train_neural_network(x):
 	prediction = convolution_neural_network(x)
 	print('Prediction: ', prediction)
 	# Calculate the difference of prediction and known label
-	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(prediction, y))
+	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=prediction, labels=y))
 	# Minimize the difference of prediction and known label
 	optimizer = tf.train.AdamOptimizer().minimize(cost)
 	# Specify cycles of feed forward and backpropogation
 	hm_epochs = 10
 	# Begin TensorFlow Session
 	with tf.Session() as sess:
-		sess.run(tf.initialize_all_variables())
+		sess.run(tf.global_variables_initializer())
 		# Begin training
 		for epoch in range(hm_epochs):
 			epoch_loss = 0
@@ -103,45 +103,3 @@ def train_neural_network(x):
 		print('Accuracy: ',accuracy.eval({x:mnist.test.images, y:mnist.test.labels}))
 
 train_neural_network(x)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

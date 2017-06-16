@@ -46,7 +46,7 @@ tf_log = 'tf.log'
 def train_neural_network(x):
     # Initialize Tensorflow Variables
     prediction = neural_network_model(x)
-    cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits(prediction,y) )
+    cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits(logits=prediction,labels=y) )
     optimizer = tf.train.AdamOptimizer(learning_rate=0.001).minimize(cost)
     with tf.Session() as sess:
         sess.run(tf.initialize_all_variables())
@@ -111,7 +111,7 @@ train_neural_network(x)
 def test_neural_network():
     prediction = neural_network_model(x)
     with tf.Session() as sess:
-        sess.run(tf.initialize_all_variables())
+        sess.run(tf.global_variables_initializer())
         for epoch in range(hm_epochs):
             # Check if premodeled data exists
             try:
