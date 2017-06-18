@@ -95,11 +95,60 @@ def initial_population():
 	print(Counter(accepted_scores))
 	return training_data
 
-initial_population()
+# 
+def neural_network_model(input_size):
+	# Define Model
+	network = input_data(shape=[None, input_size, 1], name='input')
 
+	# Layer 1
+	# Create Fully Connected Layer
+	network = fully_connected(network, 128, activation='relu')
+	# Dropout 'dead' neurons
+	network = dropout(network, 0.8)
 
+	# Layer 2
+	network = fully_connected(network, 256, activation='relu')
+	network = dropout(network, 0.8)
 
+	# Layer 3
+	network = fully_connected(network, 512, activation='relu')
+	network = dropout(network, 0.8)
 
+	# Layer 4
+	network = fully_connected(network, 256, activation='relu')
+	network = dropout(network, 0.8)
+
+	# Layer 5
+	network = fully_connected(network, 128, activation='relu')
+	network = dropout(network, 0.8)
+
+	# Output Layer
+	network = fully_connected(network, 2, activation='softmax')
+
+	network = regression(network, optimizer='adam', learning_rate=LR,
+								loss='categorical_crossentropy', name='targets')
+	# Create TFLearn Neural Net Model
+	model = tflearn(DNN(network, tensorboard_dir='log'))
+
+	return model
+
+# Training data contains: observations, output/action taken
+def train_model(training_data, model=False):
+	# Observations
+	X = numpy.array([i[0] for i in training_data]).reshape(-1, len(training_data[0][0]), 1)
+	# Output: Action Taken
+	y = [i[1] for i in training_data]
+	# Check if model exists
+	if not model:
+		# Create new model
+		model = neural_network_model(input_size=len(X[0]))
+	# Train model
+	model.fit({'input':X}, {'targets',y}, n_epoch=5, snapshot_step=500, show_metric=True, run_id='openaistuff')
+	# Return trained model
+	return model
+
+training_data = initial_population()
+model = train_model(training_data)
 
 
 

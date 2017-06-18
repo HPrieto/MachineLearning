@@ -34,7 +34,6 @@ class NeuralNetwork():
 			# Adjust the weights
 			self.synaptic_weights += adjustment
 
-
 	def predict(self, inputs):
 		# Pass inputs through our neural network (single neuron)
 		return self.__sigmoid(dot(inputs, self.synaptic_weights))
@@ -63,8 +62,8 @@ if __name__ == '__main__':
 	print 'New synaptic weights after training :'
 	print neural_network.synaptic_weights
 	# Test the neural network
-	print 'Situation #1: [1, 0, 0] -> 0'
-	print neural_network.think(array([1,0,0]))
+	print 'Situation #1: [0, 0, 1] -> 0'
+	print neural_network.think(array([0,0,1]))
 	print 'Situation #2: [1, 1, 1] -> 1'
 	print neural_network.think(array([1,1,1]))
 	print 'Situation #3: [1, 0, 1] -> 1'
