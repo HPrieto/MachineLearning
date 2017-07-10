@@ -4,7 +4,7 @@ from keras.layers.core import Dense, Activation, Dropout
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
 import lstm
-import time  # Helper Libraries
+import time # Helper Libraries
 
 # Load Data
 X_train, y_train, X_test, y_test = lstm.load_data('sp500.csv', 50, True)
@@ -19,15 +19,15 @@ model = Sequential()
 model.add(LSTM(
     input_dim=1,
     output_dim=50, 			# Units in Layer
-    return_sequences=True))  # Outputs of this Layer always fed into next
+    return_sequences=True)) # Outputs of this Layer always fed into next
 
 # Dropout 'failed' nuerons
 model.add(Dropout(0.2))
 
 # Output Layer: LSTM Layer
 model.add(LSTM(
-    100,						# 100 Units in Layer
-    return_sequences=False))  # NOT fed into next layer
+    100,					 # 100 Units in Layer
+    return_sequences=False)) # NOT fed into next layer
 
 # Dropout 'failed' neurons
 model.add(Dropout(0.2))

@@ -13,19 +13,19 @@ import time
 
 import os
 
-# Import MNIST Data
 """
+    Import MNIST Data:
     The MNIST data is split into three parts: 55k data points of training data
     10k points of test data and 5k points of vlidation data
     Every MNIST data point has two parts: an image of a handwritten digit
     and a correspoinding label.
-    We;ll call the images 'x' and the labels 'y'.
+    We'll call the images 'x' and the labels 'y'.
     Both the training set and test set contain images and their corresponding labels
 """
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets('/tmp/data/', one_hot=True)
 
-# Each image is 28 x 28 picles. We can interpret this as a big array of nums
+# Each image is 28 x 28 pixeles. We can interpret this as a big array of nums
 n_pixels = 28 * 28
 
 # Input to the graph -- Tensorflow's MNIST images are (1, 784) vectors
