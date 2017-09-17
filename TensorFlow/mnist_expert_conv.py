@@ -50,12 +50,28 @@ epochs = 100
 x = tf.placeholder(tf.float32, shape=[None, pixels])
 y_ = tf.placeholder(tf.float32, shape=[None, classes])
 
+"""
+Convolutional Neural Network Layer 1
+"""
+
 # convolutional layer 1: weight and bias matrices
 W_conv1 = weight_variable([5, 5, 1, 32])
 b_conv1 = bias_variable([32])
 
-# reshape image to (width * height * rgb)
+# reshape image to (width * height * rgb) or 4-D tensor
 x_image = tf.reshape(x, [-1, 28, 28, 1])
+
+# perform convolution: ReLU(Wx + b)
+h_conv1 = tf.nn.relu(conv2d(x_image, w_conv1) + b_conv1)
+
+# perform pool: outputs 14 x 14 image filter
+h_pool1 = max_pool_2x2(h_conv1)
+
+
+"""
+Convolutional Neural Network Layer 2
+"""
+
 
 
 
