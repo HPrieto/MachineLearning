@@ -19,7 +19,7 @@ y_ = tf.placeholder(tf.float32, shape=[None, classes])
 
 # weights and biases initialized to zero
 W = tf.Variable(tf.zeros([pixels, classes]), name='W') # [784, 10]
-b = tf.Variable(tf.zeros([classes, 1]), name='b') # [10, 1]
+b = tf.Variable(tf.zeros([classes]), name='b') # [10,]
 
 # init all tensorflow model variables at once
 sess.run(tf.global_variables_initializer())
@@ -43,8 +43,13 @@ for _ in range(1000):
 	# feed_dict replaces placeholder in computation graph
 	train_step.run(feed_dict={x: batch[0], y_:batch[1]})
 
+# check if prediction matches the truth
+correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1)) # returns list of booleans
 
+# cast from booleans to 1s and 0s
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
+print accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels})
 
 
 
