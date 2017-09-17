@@ -28,11 +28,23 @@ def conv2d(x, W):
 	"""
 	x: input matrix data
 	W: weight matrix
+	convolve: slide over the image spacially, computing dot products
 	"""
 	return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
 
 def max_pool_2x2(x):
+	"""
+	x: image filter
+	pooling: makes image filter representations smaller and more manageable
+	"""
 	return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
+
+
+# model variables
+pixels = 784
+classes = 10
+learn_rate = 0.5
+epochs = 100
 
 # input and output nodes for computation graph to use later on
 x = tf.placeholder(tf.float32, shape=[None, pixels])
@@ -44,6 +56,15 @@ b_conv1 = bias_variable([32])
 
 # reshape image to (width * height * rgb)
 x_image = tf.reshape(x, [-1, 28, 28, 1])
+
+
+
+
+
+
+
+
+
 
 
 
