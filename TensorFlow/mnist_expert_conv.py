@@ -100,6 +100,8 @@ Convolutional Neural Network Fully connected Layer 1
 	c.) add a bias
 	d.) apply ReLU
 """
+
+# number of neurons in fully connected layer
 fc_neurons = 1024
 
 # weights and biases for fully connected layer 1
@@ -112,7 +114,22 @@ h_pool2_flat = tf.reshape(h_pool2, [-1, 7 * 7 * 64])
 # activate fully connected layer 1
 h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
+# dropout to prevent overfitting when training
+keep_prob = tf.placeholder(tf.float32)
 
+# dropout to fully connected layer 1
+h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
+
+"""
+Readout Layer
+"""
+
+# fully connected layer weights and biases
+W_fc2 = weight_variable([neurons, classes])
+b_fc2 = bias_variable([classes])
+
+# convolve fully connected layer 2/output layer
+y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
 
 
