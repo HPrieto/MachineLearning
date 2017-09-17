@@ -188,6 +188,49 @@ Train and Evaluate the Model
 		process of evaluating the graph.
 """
 
+"""
+tf.reduce_mean(
+	input_tensor,				- Tensor to reduce, numeric type
+	axis=None,					- Dimensions to reduce. If None, reduces ALL
+	keep_dims=False,			- If true, retains reduced dimensions with length 1
+	name=None,					- name for the operation
+	reductions_indices=None		- the old(deprecated) name for axis
+)
+
+Output: reduced tensor
+Similar to np.mean
+
+# 'x' is [[1., 1.]
+#         [2., 2.]]
+tf.reduce_mean(x) ==> 1.5
+tf.reduce_mean(x, 0) ==> [1.5, 1.5]
+tf.reduce_mean(x, 1) ==> [1.,  2.]
+"""
+
+"""
+tf.argmax(
+	input,					- A tensor
+	axis=None,				- A tensor
+	name=None,				- name for operation
+	dimension=None,			- 
+	output_type=tf.int64	- (optional) data type
+)
+
+Returns tensor of type 'out_type':
+	- the index with the largest value across axes of a tensor
+"""
+
+"""
+tf.equal(
+	x,			- A tensor
+	y,			- Another tensor
+	name=None	- name for the operation
+)
+
+Element-wise comparison
+return tensor of type bool
+"""
+
 cross_entropy = tf.reduce_mean(
 	tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
 train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
