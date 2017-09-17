@@ -231,6 +231,16 @@ Element-wise comparison
 return tensor of type bool
 """
 
+"""
+tf.nn.softmax_cross_entropy_with_logits(
+	_sentinel=None,	- Used to prevent positional parameters. Internal, do not use
+	labels=None,	- each row labels[i] must be a valid probability distribution
+	logits=None,	- Unscaled log probabilities
+	dim=-1,			- The class dimension. Defaulted to -1 which is the last dimension
+	name=None		- Name for the operation
+)
+"""
+
 cross_entropy = tf.reduce_mean(
 	tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
 train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
