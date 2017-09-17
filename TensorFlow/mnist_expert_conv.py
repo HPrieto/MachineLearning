@@ -4,7 +4,7 @@ import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
-def weight_variable(shape, name='', std=0.01):
+def weight_variable(shape, name='W', std=0.01):
 	"""
 	Initialize weighted neurons for single hidden layer.
 	shape: dimension of weight tensor in a single hidden layer
@@ -15,7 +15,7 @@ def weight_variable(shape, name='', std=0.01):
 	initial = tf.truncated_normal(shape, stddev=std)
 	return tf.Variable(initial, name=name)
 
-def bias_variable(shape, name='', b=0.1):
+def bias_variable(shape, name='b', b=0.1):
 	"""
 	Initialize biased neurons for single hidden layer.
 	shape: dimension of bias tensor in a single hidden layer
@@ -71,7 +71,7 @@ b_conv1 = bias_variable([output_channels]) # output channels
 x_image = tf.reshape(x, [-1, i_height, i_width, 1])
 
 # perform convolution: ReLU(Wx + b)
-h_conv1 = tf.nn.relu(conv2d(x_image, w_conv1) + b_conv1)
+h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 
 # perform pool: outputs 14 x 14 image filter
 h_pool1 = max_pool_2x2(h_conv1)
@@ -125,15 +125,43 @@ Readout Layer
 """
 
 # fully connected layer weights and biases
-W_fc2 = weight_variable([neurons, classes])
+W_fc2 = weight_variable([fc_neurons, classes])
 b_fc2 = bias_variable([classes])
 
 # convolve fully connected layer 2/output layer
 y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
 
+"""
+Train and Evaluate the Model
+	Differences from softmax model:
+	a.) gradient descent optimizer replaced with adam optimizer
+	b.) include keep_prob and feed_dict for dropout
+	c.) loggin to every 100th iteration in training process
+	
+	- tf.Session separates the process of creating the graph and the 
+		process of evaluating the graph.
+"""
 
+cross_entropy = tf.reduce_mean(
+	tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y_conv))
+train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
+correct_prediction = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
+# begin training session
+with tf.Session() as sess:
+	sess.run(tf.global_variables_initializer())
+	for i in range(1000):
+		batch = mnist.train.next_batch(epochs)
+		if i % epochs == 0:
+			train_accuracy = accuracy.eval(feed_dict={
+				x: batch[0], y_:batch[1], keep_prob: 0.5 })
+			print 'step %d, training accuracy %g' % (i, train_accuracy)
+		train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5 })
 
+	print 'test accuracy %g' % accuracy.eval(feed_dict={
+		x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0
+		})
 
 
 
