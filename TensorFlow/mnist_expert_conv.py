@@ -6,6 +6,7 @@ mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
 def weight_variable(shape, name='', std=0.01):
 	"""
+	Initialize weighted neurons for single hidden layer.
 	shape: dimension of weight tensor in a single hidden layer
 	name: name of tensorflow variable
 	std: standard deviation for weight values
@@ -16,6 +17,7 @@ def weight_variable(shape, name='', std=0.01):
 
 def bias_variable(shape, name='', b=0.1):
 	"""
+	Initialize biased neurons for single hidden layer.
 	shape: dimension of bias tensor in a single hidden layer
 	name: name of tensorflow variable
 	b: bias init value
@@ -26,21 +28,21 @@ def bias_variable(shape, name='', b=0.1):
 
 def conv2d(x, W):
 	"""
+	Slide over the image spacially, computing dot products.
 	x: input matrix data
 	W: weight matrix
-	convolve: slide over the image spacially, computing dot products
 	"""
 	return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
 
 def max_pool_2x2(x):
 	"""
+	Makes image filter representations smaller and more manageable.
 	x: image filter
-	pooling: makes image filter representations smaller and more manageable
 	"""
 	return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
 
-# model variables
+# model variables/hyperparameters
 i_width = 28
 i_height = 28
 pixels = 784
