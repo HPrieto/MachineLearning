@@ -105,6 +105,14 @@ Convolutional Neural Network Layer 1
 W_conv1 = weight_variable([filter_d, filter_d, 1, output_channels])
 b_conv1 = bias_variable([output_channels]) # output channels
 
+"""
+tf.reshape (
+	tensor,		- A tensor
+	shape,		- A tensor. Must be either (int32 or int64)
+	name=None	- Name for the operation
+)
+"""
+
 # reshape image to (width * height * rgb) or 4-D tensor
 x_image = tf.reshape(x, [-1, i_height, i_width, 1])
 
