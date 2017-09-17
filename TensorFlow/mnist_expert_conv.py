@@ -11,6 +11,15 @@ def weight_variable(shape, name='W', std=0.01):
 	name: name of tensorflow variable
 	std: standard deviation for weight values
 	output: tensor with slightly positive weights for ReLU neurons
+
+	tf.truncated_normal (
+		shape,				- 1-D integer tensor(shape as output tensor)
+		mean=0.0,			- 0-D tensor value of dtype
+		stddev=1.0,			- 0-D tensor value ot dtype
+		dtype=tf.float32,	- output type
+		seed=None,			- python int, used to create random values
+		name=None			- name for the operation
+	)
 	"""
 	initial = tf.truncated_normal(shape, stddev=std)
 	return tf.Variable(initial, name=name)
@@ -22,6 +31,14 @@ def bias_variable(shape, name='b', b=0.1):
 	name: name of tensorflow variable
 	b: bias init value
 	output: tensor with initial weights of 0.1
+
+	tf.constant (
+		value,				- A constant value(or list) of output type dtype
+		dtype=None,			- type of the elements of resulting tensor
+		shape=None,			- Optional dimensions of resulting tensor
+		name='Const',		- optional name for the tensor
+		verify_shape=False	- Boolean that enables verification of a shape of values
+	)
 	"""
 	initial = tf.constant(b, shape=shape)
 	return tf.Variable(initial, name=name)
@@ -53,6 +70,27 @@ filter_d = 5
 stride = 1
 padding = 1
 output_channels = 32
+
+"""
+tf.placeholder(
+	dtype,		- data type of elements
+	shape=None,	- (optional) shape of tensor to be fed
+	name=None	- name for the operation
+)
+IMPORTANT: This tesnor will produce an error if evaluated.
+			- Its value must be fed using 'feed_dict' optional argument
+				to Session.run(), Tensor.eval(), or Operation.run()
+			
+			Ex: 
+				x = tf.placeholder(tf.float32, shape=(1024, 1024))
+				y = tf.matmul(x, x)
+
+				# WILL FAIL
+				sess.run(y)
+
+				# WILL SUCCEED
+				sess.run(y, feed_dict{x: rand_array})
+"""
 
 # input and output nodes for computation graph to use later on
 x = tf.placeholder(tf.float32, shape=[None, pixels])
@@ -153,7 +191,7 @@ with tf.Session() as sess:
 	sess.run(tf.global_variables_initializer())
 	for i in range(1000):
 		batch = mnist.train.next_batch(epochs)
-		if i % epochs == 0:
+		if i % (epochs / 10) == 0:
 			train_accuracy = accuracy.eval(feed_dict={
 				x: batch[0], y_:batch[1], keep_prob: 0.5 })
 			print 'step %d, training accuracy %g' % (i, train_accuracy)
