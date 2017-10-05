@@ -56,8 +56,10 @@ def conv2d(x, W):
 		padding,				- A string from: 'SAME', 'VALID'. Type of padding algorithm to use.
 		use_cudnn_on_gpu=None,
 		data_format=None,		- (optional string) 'NHWC', 'NCHW'
-									* Default to 'NHWC': data is stored in order of [batch, height, width, channels]
-									* 'NCHW': Data storage order => [batch, channels, height, width]
+									* Default to 'NHWC': data is stored in order of 
+										[batch, height, width, channels]
+									* 'NCHW': Data storage order => 
+										[batch, channels, height, width]
 		name=None				- Name of operation
 	)
 
@@ -65,7 +67,8 @@ def conv2d(x, W):
 
 	Procedure:
 		1.) Flattens filter to a 2D matrix with shape [f_height * f_width * in_channels, out_channels]
-		2.) Extracts image patches from the input tensor to form a cirtual tensor shape [batch, out_height, out_width, f_height * f_width * in_channels]
+		2.) Extracts image patches from the input tensor to form a cirtual tensor shape 
+				[batch, out_height, out_width, f_height * f_width * in_channels]
 		3.) For each patch, right-multiplies the filter matrix and the image patch vector
 	"""
 	return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
@@ -272,6 +275,17 @@ tf.nn.softmax_cross_entropy_with_logits(
 label_dim = [batch_size, num_classes]
 logits_dim = [batch_size, num_classes]
 Output: 1-D Tensor => [batch_size]
+"""
+
+"""
+tf.train.AdamOptimizer(
+	learning_rate=0.001,
+	beta1=0.9,
+	beta2=0.999,
+	epsilon=1e-08,
+	use_locking=False,
+	name='Adam'
+)
 """
 
 cross_entropy = tf.reduce_mean(
