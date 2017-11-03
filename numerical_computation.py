@@ -8,7 +8,7 @@ print(X)
 
 def softmax(x,X):
     """
-        x: input scalar
+        x: single input scalar from training set
         X: entire training set
     """
     return np.exp(x) / np.sum(np.exp(X))
