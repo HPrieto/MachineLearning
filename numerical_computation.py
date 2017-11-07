@@ -28,4 +28,3 @@ X = np.random.randn(500) * v
 Z = (X) - (np.amax(X))
 print('\n\n\n',Z)
 print('\n\n\n',softmax(Z[5],Z))
-# page 96
